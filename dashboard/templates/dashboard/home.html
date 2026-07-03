@@ -1,95 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G Fleet IQ</title>
+{% extends "dashboard/base.html" %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% block content %}
 
-<body class="bg-light">
+<h1 class="mb-3">Welcome to G Fleet IQ</h1>
 
-<nav class="navbar navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            🚚 G Fleet IQ
+<p class="text-muted">
+    AI-Powered Fleet Management System
+</p>
+
+<div class="row g-4">
+
+    <div class="col-lg-3 col-md-6">
+        <a href="/drivers/" class="text-decoration-none">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ drivers }}</h1>
+                <h5>👤 Drivers</h5>
+            </div>
         </a>
     </div>
-</nav>
 
-<div class="container mt-4">
-
-    <h1>Welcome to G Fleet IQ</h1>
-    <p class="text-muted">AI-Powered Fleet Management System</p>
-
-    <div class="row g-4 mt-2">
-
-        <div class="col-md-3">
-            <a href="/drivers/" class="text-decoration-none text-dark">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <h1>{{ drivers }}</h1>
-                        <h5>👤 Drivers</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h1>{{ trucks }}</h1>
-                    <h5>🚛 Trucks</h5>
-                </div>
+    <div class="col-lg-3 col-md-6">
+        <a href="/trucks/" class="text-decoration-none">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ trucks }}</h1>
+                <h5>🚛 Trucks</h5>
             </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h1>{{ trailers }}</h1>
-                    <h5>🚚 Trailers</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h1>{{ loads }}</h1>
-                    <h5>📦 Loads</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <a href="/customers/" class="text-decoration-none text-dark">
-                <div class="card shadow text-center">
-                    <div class="card-body">
-                        <h1>{{ customers }}</h1>
-                        <h5>🏢 Customers</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-
+        </a>
     </div>
 
-    <div class="card shadow mt-5">
-        <div class="card-body">
-
-            <h3>🤖 AI Dispatch Center</h3>
-
-            <button class="btn btn-primary">AI Dispatch</button>
-            <button class="btn btn-success">Fuel Optimizer</button>
-            <button class="btn btn-warning">Trailer Balance</button>
-            <button class="btn btn-danger">Return Loads</button>
-
+    <div class="col-lg-3 col-md-6">
+        <div class="card dashboard-card text-center p-4">
+            <h1>{{ trailers }}</h1>
+            <h5>🚚 Trailers</h5>
         </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card dashboard-card text-center p-4">
+            <h1>{{ loads }}</h1>
+            <h5>📦 Loads</h5>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <a href="/customers/" class="text-decoration-none">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ customers }}</h1>
+                <h5>🏢 Customers</h5>
+            </div>
+        </a>
     </div>
 
 </div>
+<div class="card dashboard-card mt-5">
+    <div class="card-body">
 
-</body>
-</html>
+        <h3>🚀 Quick Actions</h3>
+
+        <div class="d-flex flex-wrap gap-3 mt-3">
+
+            <a href="/drivers/" class="btn btn-primary">
+                ➕ Add Driver
+            </a>
+
+            <a href="/trucks/" class="btn btn-success">
+                🚛 Add Truck
+            </a>
+
+            <a href="/customers/" class="btn btn-warning">
+                🏢 Add Customer
+            </a>
+
+            <button class="btn btn-danger">
+                📦 Create Load
+            </button>
+
+        </div>
+
+    </div>
+</div>
+<div class="card dashboard-card mt-5">
+    <div class="card-body">
+
+        <h3>🤖 AI Dispatch Center</h3>
+
+        <button class="btn btn-primary">AI Dispatch</button>
+        <button class="btn btn-success">Fuel Optimizer</button>
+        <button class="btn btn-warning">Trailer Balance</button>
+        <a href="/loads/" class="btn btn-danger">
+    📦 Create Load
+</a>
+
+    </div>
+</div>
+
+{% endblock %}

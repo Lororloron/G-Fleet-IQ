@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from fleet.models import Driver, Truck, Trailer, Load, Customer
-from .forms import CustomerForm
-
+from .forms import CustomerForm, LoadForm
 
 def home(request):
     context = {
@@ -21,7 +20,9 @@ def drivers(request):
     return render(
         request,
         "dashboard/drivers.html",
-        {"drivers": drivers},
+        {
+            "drivers": drivers,
+        },
     )
 
 
@@ -42,6 +43,40 @@ def customers(request):
         "dashboard/customers.html",
         {
             "customers": customers,
+            "form": form,
+        },
+    )
+
+
+def trucks(request):
+    trucks = Truck.objects.all()
+
+    return render(
+        request,
+        "dashboard/trucks.html",
+        {
+            "trucks": trucks,
+        },
+    )
+
+
+def loads(request):
+    if request.method == "POST":
+        form = LoadForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("loads")
+    else:
+        form = LoadForm()
+
+    loads = Load.objects.all()
+
+    return render(
+        request,
+        "dashboard/loads.html",
+        {
+            "loads": loads,
             "form": form,
         },
     )

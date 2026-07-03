@@ -1,0 +1,67 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">📦 Loads</h1>
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h3>Add New Load</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">
+                Save Load
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<a href="/" class="btn btn-secondary mb-3">
+    ← Back to Dashboard
+</a>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Driver</th>
+            <th>Truck</th>
+            <th>Trailer</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for load in loads %}
+
+    <tr>
+        <td>{{ load.customer }}</td>
+        <td>{{ load.driver }}</td>
+        <td>{{ load.truck }}</td>
+        <td>{{ load.trailer }}</td>
+        <td>{{ load.status }}</td>
+    </tr>
+
+    {% empty %}
+
+    <tr>
+        <td colspan="5" class="text-center">
+            No loads found.
+        </td>
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
