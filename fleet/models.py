@@ -7,6 +7,20 @@ class Driver(models.Model):
     available = models.BooleanField(default=True)
     truck_capacity = models.IntegerField()
 
+    status = models.CharField(
+        max_length=20,
+        default="Available"
+    )
+
+    hours_remaining = models.IntegerField(
+        default=11
+    )
+
+    phone = models.CharField(
+        max_length=20,
+        blank=True
+    )
+
     truck = models.ForeignKey(
         'Truck',
         null=True,
@@ -16,6 +30,7 @@ class Driver(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Load(models.Model):
     customer = models.CharField(max_length=100)

@@ -80,3 +80,76 @@ def loads(request):
             "form": form,
         },
     )
+def trailers(request):
+    trailers = Trailer.objects.all()
+
+    return render(
+        request,
+        "dashboard/trailers.html",
+        {
+            "trailers": trailers,
+        },
+    )
+def ai_dispatch(request):
+
+    drivers = Driver.objects.all()
+    trucks = Truck.objects.all()
+    trailers = Trailer.objects.all()
+    loads = Load.objects.all()
+
+    recommended_driver = Driver.objects.filter(
+        available=True,
+        status="Available",
+        hours_remaining__gt=0
+    ).first()
+
+    recommended_truck = Truck.objects.first()
+    recommended_trailer = Trailer.objects.first()
+    next_load = Load.objects.first()
+
+    context = {
+        "drivers": drivers.count(),
+        "trucks": trucks.count(),
+        "trailers": trailers.count(),
+        "loads": loads.count(),
+
+        "recommended_driver": recommended_driver,
+        "recommended_truck": recommended_truck,
+        "recommended_trailer": recommended_trailer,
+        "next_load": next_load,
+    }
+
+    return render(
+        request,
+        "dashboard/ai_dispatch.html",
+        context,
+    )
+def dispatch_board(request):
+
+    recommended_driver = Driver.objects.filter(
+        available=True,
+        status="Available"
+    ).first()
+
+    recommended_truck = Truck.objects.first()
+    recommended_trailer = Trailer.objects.first()
+
+    context = {
+        "loads": Load.objects.all(),
+        "drivers": Driver.objects.filter(
+            available=True,
+            status="Available"
+        ),
+        "trucks": Truck.objects.all(),
+        "trailers": Trailer.objects.all(),
+
+        "recommended_driver": recommended_driver,
+        "recommended_truck": recommended_truck,
+        "recommended_trailer": recommended_trailer,
+    }
+
+    return render(
+        request,
+        "dashboard/dispatch_board.html",
+        context,
+    )

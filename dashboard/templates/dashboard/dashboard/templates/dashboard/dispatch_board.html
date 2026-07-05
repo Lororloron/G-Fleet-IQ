@@ -1,0 +1,97 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">🚚 Dispatch Board</h1>
+
+<div class="row">
+
+    <!-- Loads -->
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                📦 Waiting Loads
+            </div>
+
+            <div class="card-body">
+
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Pickup</th>
+                            <th>Delivery</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for load in loads %}
+
+                    <tr>
+                        <td>{{ load.customer }}</td>
+                        <td>{{ load.pickup }}</td>
+                        <td>{{ load.delivery }}</td>
+                        <td>{{ load.status }}</td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="4">No loads available.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AI Recommendation -->
+    <div class="col-lg-6">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-success text-white">
+                🤖 AI Recommendation
+            </div>
+
+            <div class="card-body">
+
+                <p><strong>Recommended Driver:</strong></p>
+                <p>{{ recommended_driver|default:"No available driver" }}</p>
+
+                <hr>
+
+                <p><strong>Recommended Truck:</strong></p>
+                <p>{{ recommended_truck|default:"No available truck" }}</p>
+
+                <hr>
+
+                <p><strong>Recommended Trailer:</strong></p>
+                <p>{{ recommended_trailer|default:"No available trailer" }}</p>
+
+                <hr>
+
+                <button class="btn btn-success w-100">
+                    🤖 Assign Automatically
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

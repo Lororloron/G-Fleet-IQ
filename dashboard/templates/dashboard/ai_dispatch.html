@@ -1,0 +1,77 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">🤖 AI Dispatch Center</h1>
+
+<div class="row">
+
+<div class="col-lg-3">  
+
+        <div class="card dashboard-card p-3">
+
+            <h3>Fleet Summary</h3>
+
+            <hr>
+
+        <div class="list-group">
+
+    <div class="list-group-item d-flex justify-content-between">
+        <span>👤 Drivers</span>
+        <strong>{{ drivers }}</strong>
+    </div>
+
+    <div class="list-group-item d-flex justify-content-between">
+        <span>🚛 Trucks</span>
+        <strong>{{ trucks }}</strong>
+    </div>
+
+    <div class="list-group-item d-flex justify-content-between">
+        <span>🚚 Trailers</span>
+        <strong>{{ trailers }}</strong>
+    </div>
+
+    <div class="list-group-item d-flex justify-content-between">
+        <span>📦 Loads</span>
+        <strong>{{ loads }}</strong>
+    </div>
+
+</div>    
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-9">
+
+        <div class="card dashboard-card p-4">
+
+    <h3>🚚 Fleet Status</h3>
+
+    <hr>
+
+    <div class="list-group">
+
+        <div class="list-group-item d-flex justify-content-between">
+            <span>👤 Drivers</span>
+            <span class="badge bg-primary">{{ drivers }}</span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between">
+            <span>🚛 Trucks</span>
+            <span class="badge bg-success">{{ trucks }}</span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between">
+            <span>🚚 Trailers</span>
+            <span class="badge bg-warning text-dark">{{ trailers }}</span>
+        </div>
+
+        <div class="list-group-item d-flex justify-content-between">
+            <span>📦 Loads</span>
+            <span class="badge bg-danger">{{ loads }}</span>
+        </div>
+
+    </div>
+
+</div>
