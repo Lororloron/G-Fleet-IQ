@@ -11,7 +11,7 @@
 <div class="row g-4">
 
     <div class="col-lg-3 col-md-6">
-        <a href="/drivers/" class="text-decoration-none">
+        <a href="/drivers/" class="text-decoration-none text-dark">
             <div class="card dashboard-card text-center p-4">
                 <h1>{{ drivers }}</h1>
                 <h5>👤 Drivers</h5>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="col-lg-3 col-md-6">
-        <a href="/trucks/" class="text-decoration-none">
+        <a href="/trucks/" class="text-decoration-none text-dark">
             <div class="card dashboard-card text-center p-4">
                 <h1>{{ trucks }}</h1>
                 <h5>🚛 Trucks</h5>
@@ -29,35 +29,40 @@
     </div>
 
     <div class="col-lg-3 col-md-6">
-        <div class="card dashboard-card text-center p-4">
-            <h1>{{ trailers }}</h1>
-            <h5>🚚 Trailers</h5>
-        </div>
+        <a href="/trailers/" class="text-decoration-none text-dark">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ trailers }}</h1>
+                <h5>🚚 Trailers</h5>
+            </div>
+        </a>
     </div>
 
     <div class="col-lg-3 col-md-6">
-        <div class="card dashboard-card text-center p-4">
-            <h1>{{ loads }}</h1>
-            <h5>📦 Loads</h5>
-        </div>
+        <a href="/loads/" class="text-decoration-none text-dark">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ loads }}</h1>
+                <h5>📦 Loads</h5>
+            </div>
+        </a>
     </div>
 
-<div class="col-lg-3 col-md-6">
-    <a href="/trailers/" class="text-decoration-none">
-        <div class="card dashboard-card text-center p-4">
-            <h1>{{ trailers }}</h1>
-            <h5>🚚 Trailers</h5>
-        </div>
-    </a>
-</div>    
+    <div class="col-lg-3 col-md-6">
+        <a href="/customers/" class="text-decoration-none text-dark">
+            <div class="card dashboard-card text-center p-4">
+                <h1>{{ customers }}</h1>
+                <h5>🏢 Customers</h5>
+            </div>
+        </a>
+    </div>
 
 </div>
+
 <div class="card dashboard-card mt-5">
     <div class="card-body">
 
         <h3>🚀 Quick Actions</h3>
 
-        <div class="d-flex flex-wrap gap-3 mt-3">
+        <div class="d-flex flex-wrap gap-3">
 
             <a href="/drivers/" class="btn btn-primary">
                 ➕ Add Driver
@@ -71,25 +76,35 @@
                 🏢 Add Customer
             </a>
 
-            <button class="btn btn-danger">
+            <a href="/loads/" class="btn btn-danger">
                 📦 Create Load
-            </button>
+            </a>
 
         </div>
 
     </div>
 </div>
-<div class="card dashboard-card mt-5">
+
+<div class="card dashboard-card mt-4">
     <div class="card-body">
 
         <h3>🤖 AI Dispatch Center</h3>
 
-        <button class="btn btn-primary">AI Dispatch</button>
-        <button class="btn btn-success">Fuel Optimizer</button>
-        <button class="btn btn-warning">Trailer Balance</button>
-        <a href="/loads/" class="btn btn-danger">
-    📦 Create Load
-</a>
+        <a href="/ai-dispatch/" class="btn btn-primary">
+            🤖 AI Dispatch
+        </a>
+
+        <button class="btn btn-success">
+            ⛽ Fuel Optimizer
+        </button>
+
+        <button class="btn btn-warning">
+            🚚 Trailer Balance
+        </button>
+
+        <a href="/dispatch-board/" class="btn btn-dark">
+            🚚 Dispatch Board
+        </a>
 
     </div>
 </div>

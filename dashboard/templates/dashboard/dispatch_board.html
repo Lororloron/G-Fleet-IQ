@@ -1,0 +1,100 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">🚚 Dispatch Board</h1>
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                📦 Waiting Loads
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                    <th>Customer</th>
+<th>Pickup</th>
+<th>Delivery</th>
+<th>Driver</th>
+<th>Truck</th>
+<th>Status</th>        
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+{% for load in loads %}
+
+<tr>
+    <td>{{ load.customer }}</td>
+    <td>{{ load.pickup }}</td>
+    <td>{{ load.delivery }}</td>
+    <td>{{ load.driver|default:"Unassigned" }}</td>
+    <td>{{ load.truck|default:"Unassigned" }}</td>
+    <td>
+        {% if load.status == "Available" %}
+            <span class="badge bg-warning text-dark">Available</span>
+        {% elif load.status == "Assigned" %}
+            <span class="badge bg-success">Assigned</span>
+        {% else %}
+            <span class="badge bg-secondary">{{ load.status }}</span>
+        {% endif %}
+    </td>
+</tr>
+
+{% empty %}
+
+<tr>
+    <td colspan="6">No loads available.</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-success text-white">
+                🤖 AI Recommendation
+            </div>
+
+            <div class="card-body">
+
+                <p><strong>Driver:</strong></p>
+                <p>{{ recommended_driver|default:"No available driver" }}</p>
+
+                <p><strong>Truck:</strong></p>
+                <p>{{ recommended_truck|default:"No available truck" }}</p>
+
+                <p><strong>Trailer:</strong></p>
+                <p>{{ recommended_trailer|default:"No available trailer" }}</p>
+
+                <a href="{% url 'assign_load' %}" class="btn btn-success w-100">
+                    🤖 Assign Automatically
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -45,6 +45,12 @@ class Load(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+    truck = models.ForeignKey(
+    'Truck',
+    null=True,
+    blank=True,
+    on_delete=models.SET_NULL
+)
 
     trailer = models.ForeignKey(
         'Trailer',

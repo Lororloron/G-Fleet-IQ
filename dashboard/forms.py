@@ -13,4 +13,10 @@ from fleet.models import Customer, Load
 class LoadForm(forms.ModelForm):
     class Meta:
         model = Load
-        fields = "__all__"        
+        fields = "__all__" 
+from fleet.models import Driver
+
+class DriverForm(forms.ModelForm):
+    class Meta:
+        model = Driver
+        fields = "__all__"               

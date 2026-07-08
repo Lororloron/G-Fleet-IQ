@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from fleet.models import Driver, Truck, Trailer, Load, Customer
-from .forms import CustomerForm, LoadForm
+from .forms import CustomerForm, LoadForm, DriverForm
+from django.shortcuts import get_object_or_404
 
 def home(request):
     context = {
@@ -153,3 +154,51 @@ def dispatch_board(request):
         "dashboard/dispatch_board.html",
         context,
     )
+def assign_load(request):
+
+    load = Load.objects.filter(status="Available").first()
+
+    driver = Driver.objects.filter(
+        available=True,
+        status="Available"
+    ).first()
+
+    truck = Truck.objects.first()
+    trailer = Trailer.objects.first()
+
+    if load and driver and truck and trailer:
+
+        load.driver = driver
+        load.truck = truck
+        load.trailer = trailer
+        load.status = "Assigned"
+
+        driver.available = False
+        driver.status = "Driving"
+
+        load.save()
+        driver.save()
+
+    return redirect("dispatch_board")
+def edit_driver(request, driver_id):
+
+    driver = get_object_or_404(Driver, id=driver_id)
+
+    if request.method == "POST":
+        form = DriverForm(request.POST, instance=driver)
+
+        if form.is_valid():
+            form.save()
+            return redirect("drivers")
+
+    else:
+        form = DriverForm(instance=driver)
+
+    return render(
+    request,
+    "dashboard/edit_driver.html",
+    {
+        "form": form,
+        "driver": driver,
+    },
+) 
