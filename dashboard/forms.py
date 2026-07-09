@@ -1,22 +1,32 @@
 from django import forms
-from fleet.models import Customer
+from fleet.models import Customer, Load, Driver, Truck, Trailer
 
 
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ["name", "location"]
-from django import forms
-from fleet.models import Customer, Load
 
 
 class LoadForm(forms.ModelForm):
     class Meta:
         model = Load
-        fields = "__all__" 
-from fleet.models import Driver
+        fields = "__all__"
+
 
 class DriverForm(forms.ModelForm):
     class Meta:
         model = Driver
-        fields = "__all__"               
+        fields = "__all__"
+
+
+class TruckForm(forms.ModelForm):
+    class Meta:
+        model = Truck
+        fields = "__all__"
+
+
+class TrailerForm(forms.ModelForm):
+    class Meta:
+        model = Trailer
+        fields = "__all__"

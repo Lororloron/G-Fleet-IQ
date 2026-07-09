@@ -3,6 +3,11 @@
 {% block content %}
 
 <h1 class="mb-4">🚚 Trailers</h1>
+<div class="mb-3">
+    <a href="{% url 'add_trailer' %}" class="btn btn-primary">
+        ➕ Add Trailer
+    </a>
+</div>
 
 <div class="card mb-4">
     <div class="card-body">
@@ -30,9 +35,14 @@
     {% for trailer in trailers %}
 
     <tr>
-        <td>{{ trailer.id }}</td>
-        <td>{{ trailer }}</td>
-    </tr>
+    <td>{{ trailer.id }}</td>
+    <td>{{ trailer }}</td>
+    <td>
+        <a href="{% url 'edit_trailer' trailer.id %}" class="btn btn-warning btn-sm">
+            ✏️ Edit
+        </a>
+    </td>
+</tr>
 
     {% empty %}
 

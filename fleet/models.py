@@ -30,7 +30,20 @@ class Driver(models.Model):
 
     def __str__(self):
         return self.name
+    class Driver(models.Model):
+     name = models.CharField(max_length=100)
+    location = models.CharField(max_length=200)
+    available = models.BooleanField(default=True)
+    truck_capacity = models.IntegerField()
 
+    ai_score = models.IntegerField(default=0)
+
+    truck = models.ForeignKey(
+        'Truck',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
 
 class Load(models.Model):
     customer = models.CharField(max_length=100)

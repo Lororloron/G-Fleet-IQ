@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from fleet.models import Driver, Truck, Trailer, Load, Customer
-from .forms import CustomerForm, LoadForm, DriverForm
+from .forms import CustomerForm, LoadForm, DriverForm, TruckForm, TrailerForm
+
 from django.shortcuts import get_object_or_404
 
 def home(request):
@@ -98,11 +99,14 @@ def ai_dispatch(request):
     trailers = Trailer.objects.all()
     loads = Load.objects.all()
 
-    recommended_driver = Driver.objects.filter(
+    recommended_driver = (
+    Driver.objects.filter(
         available=True,
-        status="Available",
-        hours_remaining__gt=0
-    ).first()
+        status="Available"
+    )
+    .order_by("-ai_score")
+    .first()
+)
 
     recommended_truck = Truck.objects.first()
     recommended_trailer = Trailer.objects.first()
@@ -127,23 +131,41 @@ def ai_dispatch(request):
     )
 def dispatch_board(request):
 
-    recommended_driver = Driver.objects.filter(
+    available_drivers = Driver.objects.filter(
         available=True,
         status="Available"
-    ).first()
+    )
+
+    for driver in available_drivers:
+
+        score = 0
+
+        if driver.available:
+            score += 40
+
+        if driver.hours_remaining >= 8:
+            score += 30
+        elif driver.hours_remaining >= 4:
+            score += 20
+        else:
+            score += 10
+
+        if driver.truck:
+            score += 20
+
+        driver.ai_score = score
+        driver.save()
+
+    recommended_driver = available_drivers.order_by("-ai_score").first()
 
     recommended_truck = Truck.objects.first()
     recommended_trailer = Trailer.objects.first()
 
     context = {
         "loads": Load.objects.all(),
-        "drivers": Driver.objects.filter(
-            available=True,
-            status="Available"
-        ),
+        "drivers": available_drivers,
         "trucks": Truck.objects.all(),
         "trailers": Trailer.objects.all(),
-
         "recommended_driver": recommended_driver,
         "recommended_truck": recommended_truck,
         "recommended_trailer": recommended_trailer,
@@ -180,6 +202,25 @@ def assign_load(request):
         driver.save()
 
     return redirect("dispatch_board")
+def add_driver(request):
+
+    if request.method == "POST":
+        form = DriverForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("drivers")
+
+    else:
+        form = DriverForm()
+
+    return render(
+        request,
+        "dashboard/add_driver.html",
+        {
+            "form": form,
+        },
+    )
 def edit_driver(request, driver_id):
 
     driver = get_object_or_404(Driver, id=driver_id)
@@ -201,4 +242,86 @@ def edit_driver(request, driver_id):
         "form": form,
         "driver": driver,
     },
-) 
+)
+def add_truck(request):
+
+    if request.method == "POST":
+        form = TruckForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("trucks")
+
+    else:
+        form = TruckForm()
+
+    return render(
+        request,
+        "dashboard/add_truck.html",
+        {
+            "form": form,
+        },
+    )
+def add_trailer(request):
+
+    if request.method == "POST":
+        form = TrailerForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("trailers")
+
+    else:
+        form = TrailerForm()
+
+    return render(
+        request,
+        "dashboard/add_trailer.html",
+        {
+            "form": form,
+        },
+    )
+def edit_trailer(request, trailer_id):
+
+    trailer = get_object_or_404(Trailer, id=trailer_id)
+
+    if request.method == "POST":
+        form = TrailerForm(request.POST, instance=trailer)
+
+        if form.is_valid():
+            form.save()
+            return redirect("trailers")
+
+    else:
+        form = TrailerForm(instance=trailer)
+
+    return render(
+        request,
+        "dashboard/edit_trailer.html",
+        {
+            "form": form,
+            "trailer": trailer,
+        },
+    )
+def edit_truck(request, truck_id):
+
+    truck = get_object_or_404(Truck, id=truck_id)
+
+    if request.method == "POST":
+        form = TruckForm(request.POST, instance=truck)
+
+        if form.is_valid():
+            form.save()
+            return redirect("trucks")
+
+    else:
+        form = TruckForm(instance=truck)
+
+    return render(
+        request,
+        "dashboard/edit_truck.html",
+        {
+            "form": form,
+            "truck": truck,
+        },
+    )

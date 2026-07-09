@@ -78,6 +78,13 @@
 
                 <p><strong>Driver:</strong></p>
                 <p>{{ recommended_driver|default:"No available driver" }}</p>
+                {% if recommended_driver %}
+                <p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
+                         {% endif %}
+                <p><strong>AI Score:</strong></p>
+                <p>{{ recommended_driver.ai_score }}/100</p>
+                <p><strong>AI Score:</strong></p>
+                <p>{{ recommended_driver.ai_score }}/100</p>
 
                 <p><strong>Truck:</strong></p>
                 <p>{{ recommended_truck|default:"No available truck" }}</p>
