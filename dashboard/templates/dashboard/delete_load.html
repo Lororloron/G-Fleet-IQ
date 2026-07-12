@@ -1,0 +1,34 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">🗑️ Delete Load</h1>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <p>
+            Are you sure you want to delete this load for
+            <strong>{{ load.customer }}</strong>?
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-danger">
+                🗑️ Delete Load
+            </button>
+
+            <a href="{% url 'loads' %}" class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -4,101 +4,75 @@
 
 <h1 class="mb-4">🚚 Dispatch Board</h1>
 
-<div class="row">
+<div class="card shadow">
 
-    <div class="col-lg-8">
-
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                📦 Waiting Loads
-            </div>
-
-            <div class="card-body">
-
-                <table class="table table-striped">
-
-                    <thead>
-                        <tr>
-                    <th>Customer</th>
-<th>Pickup</th>
-<th>Delivery</th>
-<th>Driver</th>
-<th>Truck</th>
-<th>Status</th>        
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-{% for load in loads %}
-
-<tr>
-    <td>{{ load.customer }}</td>
-    <td>{{ load.pickup }}</td>
-    <td>{{ load.delivery }}</td>
-    <td>{{ load.driver|default:"Unassigned" }}</td>
-    <td>{{ load.truck|default:"Unassigned" }}</td>
-    <td>
-        {% if load.status == "Available" %}
-            <span class="badge bg-warning text-dark">Available</span>
-        {% elif load.status == "Assigned" %}
-            <span class="badge bg-success">Assigned</span>
-        {% else %}
-            <span class="badge bg-secondary">{{ load.status }}</span>
-        {% endif %}
-    </td>
-</tr>
-
-{% empty %}
-
-<tr>
-    <td colspan="6">No loads available.</td>
-</tr>
-
-{% endfor %}
-
-</tbody>
-                </table>
-
-            </div>
-
-        </div>
-
+    <div class="card-header bg-primary text-white">
+        📦 Waiting Loads
     </div>
 
-    <div class="col-lg-4">
+    <div class="card-body">
 
-        <div class="card shadow">
+        <table class="table table-striped">
 
-            <div class="card-header bg-success text-white">
-                🤖 AI Recommendation
-            </div>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Pickup</th>
+                    <th>Delivery</th>
+                    <th>Driver</th>
+                    <th>Truck</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-            <div class="card-body">
+            <tbody>
 
-                <p><strong>Driver:</strong></p>
-                <p>{{ recommended_driver|default:"No available driver" }}</p>
-                {% if recommended_driver %}
-                <p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
-                         {% endif %}
-                <p><strong>AI Score:</strong></p>
-                <p>{{ recommended_driver.ai_score }}/100</p>
-                <p><strong>AI Score:</strong></p>
-                <p>{{ recommended_driver.ai_score }}/100</p>
+            {% for load in loads %}
 
-                <p><strong>Truck:</strong></p>
-                <p>{{ recommended_truck|default:"No available truck" }}</p>
+            <tr>
 
-                <p><strong>Trailer:</strong></p>
-                <p>{{ recommended_trailer|default:"No available trailer" }}</p>
+                <td>{{ load.customer }}</td>
+                <td>{{ load.pickup }}</td>
+                <td>{{ load.delivery }}</td>
+                <td>{{ load.driver|default:"Unassigned" }}</td>
+                <td>{{ load.truck|default:"Unassigned" }}</td>
 
-                <a href="{% url 'assign_load' %}" class="btn btn-success w-100">
-                    🤖 Assign Automatically
-                </a>
+                <td>
+                    {% if load.status == "Available" %}
+                        <span class="badge bg-warning text-dark">Available</span>
+                    {% elif load.status == "Assigned" %}
+                        <span class="badge bg-success">Assigned</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ load.status }}</span>
+                    {% endif %}
+                </td>
 
-            </div>
+                <td>
+                    {% if load.status == "Available" %}
+                        <a href="{% url 'assign_load' load.id %}" class="btn btn-success btn-sm">
+                            🤖 AI Assign
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Assigned</span>
+                    {% endif %}
+                </td>
 
-        </div>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="7" class="text-center">
+                    No loads available.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
 
     </div>
 

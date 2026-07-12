@@ -110,3 +110,114 @@
 </div>
 
 {% endblock %}
+<div class="row mt-4">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+                🤖 AI Dispatch Center
+            </div>
+
+            <div class="card-body">
+
+                <p><strong>Drivers Available:</strong> {{ drivers }}</p>
+                <p><strong>Trucks Ready:</strong> {{ trucks }}</p>
+                <p><strong>Trailers Ready:</strong> {{ trailers }}</p>
+                <p><strong>Waiting Loads:</strong> {{ loads }}</p>
+
+                <a href="{% url 'dispatch_board' %}" class="btn btn-success">
+                    🚚 Open Dispatch Board
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-success text-white">
+                📊 Fleet Status
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    <li class="list-group-item">
+                        👤 Drivers: {{ drivers }}
+                    </li>
+
+                    <li class="list-group-item">
+                        🚛 Trucks: {{ trucks }}
+                    </li>
+
+                    <li class="list-group-item">
+                        🚚 Trailers: {{ trailers }}
+                    </li>
+
+                    <li class="list-group-item">
+                        📦 Loads: {{ loads }}
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<hr>
+
+<h2 class="mb-4">⚡ Quick Actions</h2>
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'drivers' %}" class="btn btn-primary w-100">
+            👤 Manage Drivers
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trucks' %}" class="btn btn-success w-100">
+            🚛 Manage Trucks
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trailers' %}" class="btn btn-warning w-100">
+            🚚 Manage Trailers
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'loads' %}" class="btn btn-danger w-100">
+            📦 Manage Loads
+        </a>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+        <a href="{% url 'dispatch_board' %}" class="btn btn-dark w-100">
+            🤖 Open Dispatch Board
+        </a>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <a href="{% url 'ai_dispatch' %}" class="btn btn-info w-100">
+            🧠 AI Dispatch Center
+        </a>
+    </div>
+
+</div>

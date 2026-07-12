@@ -25,7 +25,6 @@
 <a href="/" class="btn btn-secondary mb-3">
     ← Back to Dashboard
 </a>
-
 <table class="table table-striped">
 
     <thead>
@@ -35,6 +34,7 @@
             <th>Truck</th>
             <th>Trailer</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
 
@@ -48,12 +48,22 @@
         <td>{{ load.truck }}</td>
         <td>{{ load.trailer }}</td>
         <td>{{ load.status }}</td>
+
+        <td>
+
+            <a href="{% url 'delete_load' load.id %}"
+               class="btn btn-danger btn-sm">
+                🗑️ Delete
+            </a>
+
+        </td>
+
     </tr>
 
     {% empty %}
 
     <tr>
-        <td colspan="5" class="text-center">
+        <td colspan="6" class="text-center">
             No loads found.
         </td>
     </tr>
@@ -63,5 +73,8 @@
     </tbody>
 
 </table>
+
+
+
 
 {% endblock %}

@@ -6,72 +6,77 @@
 
 <div class="row">
 
-<div class="col-lg-3">  
+    <div class="col-lg-4">
 
-        <div class="card dashboard-card p-3">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                Fleet Summary
+            </div>
 
-            <h3>Fleet Summary</h3>
+            <div class="card-body">
 
-            <hr>
+    <h4>🤖 Best Assignment</h4>
 
-        <div class="list-group">
+    <p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
 
-    <div class="list-group-item d-flex justify-content-between">
-        <span>👤 Drivers</span>
-        <strong>{{ drivers }}</strong>
-    </div>
+    <p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
 
-    <div class="list-group-item d-flex justify-content-between">
-        <span>🚛 Trucks</span>
-        <strong>{{ trucks }}</strong>
-    </div>
+    <p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer" }}</p>
 
-    <div class="list-group-item d-flex justify-content-between">
-        <span>🚚 Trailers</span>
-        <strong>{{ trailers }}</strong>
-    </div>
-
-    <div class="list-group-item d-flex justify-content-between">
-        <span>📦 Loads</span>
-        <strong>{{ loads }}</strong>
-    </div>
-
-</div>    
-
-        </div>
-
-    </div>
-
-    <div class="col-lg-9">
-
-        <div class="card dashboard-card p-4">
-
-    <h3>🚚 Fleet Status</h3>
+    {% if recommended_driver %}
+        <p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
+    {% endif %}
 
     <hr>
 
-    <div class="list-group">
+    
 
-        <div class="list-group-item d-flex justify-content-between">
-            <span>👤 Drivers</span>
-            <span class="badge bg-primary">{{ drivers }}</span>
-        </div>
+    <a href="{% url 'dispatch_board' %}" class="btn btn-primary">
+        🚚 Open Dispatch Board
+    </a>
 
-        <div class="list-group-item d-flex justify-content-between">
-            <span>🚛 Trucks</span>
-            <span class="badge bg-success">{{ trucks }}</span>
-        </div>
+</div>
+    <div class="col-lg-8">
 
-        <div class="list-group-item d-flex justify-content-between">
-            <span>🚚 Trailers</span>
-            <span class="badge bg-warning text-dark">{{ trailers }}</span>
-        </div>
+        <div class="card shadow">
 
-        <div class="list-group-item d-flex justify-content-between">
-            <span>📦 Loads</span>
-            <span class="badge bg-danger">{{ loads }}</span>
+            <div class="card-header bg-success text-white">
+                🤖 AI Recommendation
+            </div>
+
+            <div class="card-body">
+
+                <p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
+
+                <p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
+
+                <p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer"
+               }}</p>
+               <hr>
+
+<h4>🤖 Best Assignment</h4>
+
+<p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
+
+<p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
+
+<p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer" }}</p>
+
+{% if recommended_driver %}
+<p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
+{% endif %}
+
+<a href="{% url 'dispatch_board' %}" class="btn btn-primary">
+    🚚 Open Dispatch Board
+</a>
+
+                
+            </div>
+
         </div>
 
     </div>
 
 </div>
+
+{% endblock %}

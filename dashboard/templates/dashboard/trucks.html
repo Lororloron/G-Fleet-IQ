@@ -30,19 +30,24 @@
     {% for truck in trucks %}
 
     <tr>
-        <td>{{ truck.unit_number }}</td>
-        <td>{{ truck.capacity }}</td>
-        <td>{{ truck.active }}</td>
+    <td>{{ truck.unit_number }}</td>
+    <td>{{ truck.capacity }}</td>
+    <td>{{ truck.active }}</td>
 
-        <td>
-            <a href="{% url 'edit_truck' truck.id %}" class="btn btn-warning btn-sm">
-                ✏️ Edit
-            </a>
-        </td>
+    <td>
 
-    </tr>
+        <a href="{% url 'edit_truck' truck.id %}"
+           class="btn btn-warning btn-sm">
+            ✏️ Edit
+        </a>
 
-    {% empty %}
+        <a href="{% url 'delete_truck' truck.id %}"
+           class="btn btn-danger btn-sm">
+            🗑️ Delete
+        </a>
+
+    </td>
+</tr>
 
     <tr>
         <td colspan="4">No trucks found.</td>
@@ -55,3 +60,10 @@
 </table>
 
 {% endblock %}
+<a href="{% url 'edit_truck' truck.id %}" class="btn btn-warning btn-sm">
+    ✏️ Edit
+</a>
+
+<a href="{% url 'delete_truck' truck.id %}" class="btn btn-danger btn-sm">
+    🗑️ Delete
+</a>

@@ -176,19 +176,19 @@ def dispatch_board(request):
         "dashboard/dispatch_board.html",
         context,
     )
-def assign_load(request):
+def assign_load(request, load_id):
 
-    load = Load.objects.filter(status="Available").first()
+    load = get_object_or_404(Load, id=load_id)
 
     driver = Driver.objects.filter(
         available=True,
         status="Available"
-    ).first()
+    ).order_by("-ai_score").first()
 
     truck = Truck.objects.first()
     trailer = Trailer.objects.first()
 
-    if load and driver and truck and trailer:
+    if driver and truck and trailer:
 
         load.driver = driver
         load.truck = truck
@@ -325,3 +325,82 @@ def edit_truck(request, truck_id):
             "truck": truck,
         },
     )
+def delete_driver(request, driver_id):
+
+    driver = get_object_or_404(Driver, id=driver_id)
+
+    if request.method == "POST":
+        driver.delete()
+        return redirect("drivers")
+
+    return render(
+        request,
+        "dashboard/delete_driver.html",
+        {
+            "driver": driver,
+        },
+    )
+def delete_truck(request, truck_id):
+
+    truck = get_object_or_404(Truck, id=truck_id)
+
+    if request.method == "POST":
+        truck.delete()
+        return redirect("trucks")
+
+    return render(
+        request,
+        "dashboard/delete_truck.html",
+        {
+            "truck": truck,
+        },
+    )
+def delete_trailer(request, trailer_id):
+
+    trailer = get_object_or_404(Trailer, id=trailer_id)
+
+    if request.method == "POST":
+        trailer.delete()
+        return redirect("trailers")
+
+    return render(
+        request,
+        "dashboard/delete_trailer.html",
+        {
+            "trailer": trailer,
+        },
+    )
+def delete_customer(request, customer_id):
+
+    customer = get_object_or_404(Customer, id=customer_id)
+
+    if request.method == "POST":
+        customer.delete()
+        return redirect("customers")
+
+    return render(
+        request,
+        "dashboard/delete_customer.html",
+        {
+            "customer": customer,
+        },
+    ) 
+def delete_load(request, load_id):
+
+    load = get_object_or_404(Load, id=load_id)
+
+    if request.method == "POST":
+        load.delete()
+        return redirect("loads")
+
+    return render(
+        request,
+        "dashboard/delete_load.html",
+        {
+            "load": load,
+        },
+    )        
+    
+
+
+    

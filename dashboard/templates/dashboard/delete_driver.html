@@ -2,18 +2,21 @@
 
 {% block content %}
 
-<h1 class="mb-4">👤 Add Driver</h1>
+<h1 class="mb-4">🗑️ Delete Driver</h1>
 
 <div class="card shadow">
     <div class="card-body">
 
+        <p>
+            Are you sure you want to delete
+            <strong>{{ driver.name }}</strong>?
+        </p>
+
         <form method="POST">
             {% csrf_token %}
 
-            {{ form.as_p }}
-
-            <button type="submit" class="btn btn-success">
-                💾 Save Driver
+            <button type="submit" class="btn btn-danger">
+                🗑️ Yes, Delete
             </button>
 
             <a href="{% url 'drivers' %}" class="btn btn-secondary">

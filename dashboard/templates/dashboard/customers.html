@@ -51,37 +51,48 @@
         ← Back to Dashboard
     </a>
 
-    <table class="table table-striped table-bordered">
+   <table class="table table-striped table-bordered">
 
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Location</th>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
 
-        <tbody>
+    <tbody>
 
-        {% for customer in customers %}
+    {% for customer in customers %}
 
-            <tr>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.location }}</td>
-            </tr>
+    <tr>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.location }}</td>
 
-        {% empty %}
+        <td>
 
-            <tr>
-                <td colspan="2" class="text-center">
-                    No customers found.
-                </td>
-            </tr>
+            <a href="{% url 'delete_customer' customer.id %}"
+               class="btn btn-danger btn-sm">
+                🗑️ Delete
+            </a>
 
-        {% endfor %}
+        </td>
 
-        </tbody>
+    </tr>
 
-    </table>
+    {% empty %}
+
+    <tr>
+        <td colspan="3" class="text-center">
+            No customers found.
+        </td>
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
 
 </div>
 
