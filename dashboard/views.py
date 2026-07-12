@@ -4,28 +4,6 @@ from .forms import CustomerForm, LoadForm, DriverForm, TruckForm, TrailerForm
 
 from django.shortcuts import get_object_or_404
 
-def home(request):
-    context = {
-        "drivers": Driver.objects.count(),
-        "trucks": Truck.objects.count(),
-        "trailers": Trailer.objects.count(),
-        "loads": Load.objects.count(),
-        "customers": Customer.objects.count(),
-    }
-
-    return render(request, "dashboard/home.html", context)
-
-
-def drivers(request):
-    drivers = Driver.objects.all()
-
-    return render(
-        request,
-        "dashboard/drivers.html",
-        {
-            "drivers": drivers,
-        },
-    )
 
 
 def customers(request):
@@ -47,6 +25,47 @@ def customers(request):
             "customers": customers,
             "form": form,
         },
+    )
+def home(request):
+
+    recommended_driver = Driver.objects.filter(
+        available=True,
+        status="Available"
+    ).order_by("-ai_score").first()
+
+    context = {
+        "drivers": Driver.objects.count(),
+        "trucks": Truck.objects.count(),
+        "trailers": Trailer.objects.count(),
+        "loads": Load.objects.count(),
+        "customers": Customer.objects.count(),
+
+        "available_drivers": Driver.objects.filter(
+            available=True
+        ).count(),
+
+        "assigned_loads": Load.objects.filter(
+            status="Assigned"
+        ).count(),
+
+        "available_trucks": Truck.objects.count(),
+        "available_trailers": Trailer.objects.count(),
+        "available_loads": Load.objects.filter(
+            status="Available"
+        ).count(),
+        "completed_loads": Load.objects.filter(
+            status="Assigned"
+        ).count(),
+
+        "recommended_driver": recommended_driver,
+
+        "recent_loads": Load.objects.order_by("-id")[:5],
+    }
+
+    return render(
+        request,
+        "dashboard/home.html",
+        context,
     )
 
 
@@ -202,6 +221,17 @@ def assign_load(request, load_id):
         driver.save()
 
     return redirect("dispatch_board")
+def drivers(request):
+
+    drivers = Driver.objects.all()
+
+    return render(
+        request,
+        "dashboard/drivers.html",
+        {
+            "drivers": drivers,
+        },
+    )
 def add_driver(request):
 
     if request.method == "POST":

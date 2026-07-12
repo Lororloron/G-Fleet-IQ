@@ -110,6 +110,49 @@
 </div>
 
 {% endblock %}
+<hr>
+
+<h2 class="mb-4">📊 Fleet Analytics</h2>
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h3>{{ available_drivers }}</h3>
+                <p>👤 Available Drivers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h3>{{ available_trucks }}</h3>
+                <p>🚛 Trucks</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h3>{{ available_trailers }}</h3>
+                <p>🚚 Trailers</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h3>{{ available_loads }}</h3>
+                <p>📦 Waiting Loads</p>
+            </div>
+        </div>
+    </div>
+
+</div>
 <div class="row mt-4">
 
     <div class="col-lg-6">
@@ -221,3 +264,226 @@
     </div>
 
 </div>
+<hr>
+
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-success text-white">
+                🤖 AI Recommendation
+            </div>
+
+            <div class="card-body">
+
+                {% if recommended_driver %}
+
+                    <h4>{{ recommended_driver.name }}</h4>
+
+                    <p>
+                        AI Score:
+                        <strong>{{ recommended_driver.ai_score }}/100</strong>
+                    </p>
+
+                    <p>
+                        Hours Remaining:
+                        {{ recommended_driver.hours_remaining }}
+                    </p>
+
+                {% else %}
+
+                    <p>No available drivers.</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-primary text-white">
+                🚚 Fleet Status
+            </div>
+
+            <div class="card-body">
+
+                <p>Available Drivers:
+                    <strong>{{ available_drivers }}</strong>
+                </p>
+
+                <p>Assigned Loads:
+                    <strong>{{ assigned_loads }}</strong>
+                </p>
+
+                <p>Customers:
+                    <strong>{{ customers }}</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<h3 class="mb-3">📦 Recent Loads</h3>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Customer</th>
+            <th>Status</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for load in recent_loads %}
+
+        <tr>
+
+            <td>{{ load.customer }}</td>
+            <td>{{ load.status }}</td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="2">
+                No recent loads.
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+<hr>
+
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-success text-white">
+                🤖 AI Recommendation
+            </div>
+
+            <div class="card-body">
+
+                {% if recommended_driver %}
+
+                    <h4>{{ recommended_driver.name }}</h4>
+
+                    <p>
+                        AI Score:
+                        <strong>{{ recommended_driver.ai_score }}/100</strong>
+                    </p>
+
+                    <p>
+                        Hours Remaining:
+                        {{ recommended_driver.hours_remaining }}
+                    </p>
+
+                {% else %}
+
+                    <p>No available drivers.</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-primary text-white">
+                🚚 Fleet Status
+            </div>
+
+            <div class="card-body">
+
+                <p>Available Drivers:
+                    <strong>{{ available_drivers }}</strong>
+                </p>
+
+                <p>Assigned Loads:
+                    <strong>{{ assigned_loads }}</strong>
+                </p>
+
+                <p>Customers:
+                    <strong>{{ customers }}</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<h3 class="mb-3">📦 Recent Loads</h3>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Customer</th>
+            <th>Status</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for load in recent_loads %}
+
+        <tr>
+
+            <td>{{ load.customer }}</td>
+            <td>{{ load.status }}</td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="2">
+                No recent loads.
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+

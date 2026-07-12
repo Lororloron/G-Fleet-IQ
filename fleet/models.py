@@ -1,6 +1,24 @@
 from django.db import models
 
 
+class Truck(models.Model):
+    unit_number = models.CharField(max_length=50)
+    capacity = models.IntegerField()
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.unit_number
+
+
+class Trailer(models.Model):
+    trailer_number = models.CharField(max_length=50)
+    loaded = models.BooleanField(default=False)
+    location = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.trailer_number
+
+
 class Driver(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
@@ -12,17 +30,21 @@ class Driver(models.Model):
         default="Available"
     )
 
-    hours_remaining = models.IntegerField(
-        default=11
-    )
+    hours_remaining = models.IntegerField(default=11)
 
     phone = models.CharField(
         max_length=20,
         blank=True
     )
 
+    ai_score = models.IntegerField(default=0)
+
+    miles_today = models.IntegerField(default=0)
+    loads_completed = models.IntegerField(default=0)
+    fuel_efficiency = models.FloatField(default=0)
+
     truck = models.ForeignKey(
-        'Truck',
+        Truck,
         null=True,
         blank=True,
         on_delete=models.SET_NULL
@@ -30,20 +52,15 @@ class Driver(models.Model):
 
     def __str__(self):
         return self.name
-    class Driver(models.Model):
-     name = models.CharField(max_length=100)
+
+
+class Customer(models.Model):
+    name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
-    available = models.BooleanField(default=True)
-    truck_capacity = models.IntegerField()
 
-    ai_score = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name
 
-    truck = models.ForeignKey(
-        'Truck',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
 
 class Load(models.Model):
     customer = models.CharField(max_length=100)
@@ -58,15 +75,16 @@ class Load(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+
     truck = models.ForeignKey(
-    'Truck',
-    null=True,
-    blank=True,
-    on_delete=models.SET_NULL
-)
+        Truck,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
 
     trailer = models.ForeignKey(
-        'Trailer',
+        Trailer,
         null=True,
         blank=True,
         on_delete=models.SET_NULL
@@ -74,30 +92,3 @@ class Load(models.Model):
 
     def __str__(self):
         return self.customer
-      
-class Truck(models.Model):
-    unit_number = models.CharField(max_length=50)
-    capacity = models.IntegerField()
-    active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.unit_number 
-class Trailer(models.Model):
-    trailer_number = models.CharField(max_length=50)
-    loaded = models.BooleanField(default=False)
-    location = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.trailer_number
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name        
