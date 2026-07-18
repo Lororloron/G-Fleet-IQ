@@ -1,243 +1,85 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
+<div class="p-4 mb-4 bg-primary text-white rounded shadow">
 
-<h1 class="mb-3">Welcome to G Fleet IQ</h1>
+    <h1>🚚 G Fleet IQ Command Center</h1>
 
-<p class="text-muted">
-    AI-Powered Fleet Management System
-</p>
+    <p class="mb-0">
+        AI-Powered Fleet Management System
+    </p>
 
-<div class="row g-4">
+</div>
+<div class="row">
 
-    <div class="col-lg-3 col-md-6">
-        <a href="/drivers/" class="text-decoration-none text-dark">
-            <div class="card dashboard-card text-center p-4">
-                <h1>{{ drivers }}</h1>
-                <h5>👤 Drivers</h5>
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'drivers' %}" class="text-decoration-none">
+            <div class="card shadow border-primary text-center">
+                <div class="card-body">
+                    <h1>{{ drivers }}</h1>
+                    <h5 class="text-dark">👤 Drivers</h5>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-lg-3 col-md-6">
-        <a href="/trucks/" class="text-decoration-none text-dark">
-            <div class="card dashboard-card text-center p-4">
-                <h1>{{ trucks }}</h1>
-                <h5>🚛 Trucks</h5>
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trucks' %}" class="text-decoration-none">
+            <div class="card shadow border-success text-center">
+                <div class="card-body">
+                    <h1>{{ trucks }}</h1>
+                    <h5 class="text-dark">🚛 Trucks</h5>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-lg-3 col-md-6">
-        <a href="/trailers/" class="text-decoration-none text-dark">
-            <div class="card dashboard-card text-center p-4">
-                <h1>{{ trailers }}</h1>
-                <h5>🚚 Trailers</h5>
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trailers' %}" class="text-decoration-none">
+            <div class="card shadow border-warning text-center">
+                <div class="card-body">
+                    <h1>{{ trailers }}</h1>
+                    <h5 class="text-dark">🚚 Trailers</h5>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-lg-3 col-md-6">
-        <a href="/loads/" class="text-decoration-none text-dark">
-            <div class="card dashboard-card text-center p-4">
-                <h1>{{ loads }}</h1>
-                <h5>📦 Loads</h5>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-        <a href="/customers/" class="text-decoration-none text-dark">
-            <div class="card dashboard-card text-center p-4">
-                <h1>{{ customers }}</h1>
-                <h5>🏢 Customers</h5>
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'loads' %}" class="text-decoration-none">
+            <div class="card shadow border-danger text-center">
+                <div class="card-body">
+                    <h1>{{ loads }}</h1>
+                    <h5 class="text-dark">📦 Loads</h5>
+                </div>
             </div>
         </a>
     </div>
 
 </div>
 
-<div class="card dashboard-card mt-5">
-    <div class="card-body">
 
-        <h3>🚀 Quick Actions</h3>
-
-        <div class="d-flex flex-wrap gap-3">
-
-            <a href="/drivers/" class="btn btn-primary">
-                ➕ Add Driver
-            </a>
-
-            <a href="/trucks/" class="btn btn-success">
-                🚛 Add Truck
-            </a>
-
-            <a href="/customers/" class="btn btn-warning">
-                🏢 Add Customer
-            </a>
-
-            <a href="/loads/" class="btn btn-danger">
-                📦 Create Load
-            </a>
-
-        </div>
-
-    </div>
-</div>
-
-<div class="card dashboard-card mt-4">
-    <div class="card-body">
-
-        <h3>🤖 AI Dispatch Center</h3>
-
-        <a href="/ai-dispatch/" class="btn btn-primary">
-            🤖 AI Dispatch
-        </a>
-
-        <button class="btn btn-success">
-            ⛽ Fuel Optimizer
-        </button>
-
-        <button class="btn btn-warning">
-            🚚 Trailer Balance
-        </button>
-
-        <a href="/dispatch-board/" class="btn btn-dark">
-            🚚 Dispatch Board
-        </a>
-
-    </div>
-</div>
-
-{% endblock %}
 <hr>
 
-<h2 class="mb-4">📊 Fleet Analytics</h2>
+<h3 class="mb-3">⚡ Quick Actions</h3>
 
 <div class="row">
 
     <div class="col-md-3 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h3>{{ available_drivers }}</h3>
-                <p>👤 Available Drivers</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h3>{{ available_trucks }}</h3>
-                <p>🚛 Trucks</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h3>{{ available_trailers }}</h3>
-                <p>🚚 Trailers</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h3>{{ available_loads }}</h3>
-                <p>📦 Waiting Loads</p>
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="row mt-4">
-
-    <div class="col-lg-6">
-
-        <div class="card shadow">
-
-            <div class="card-header bg-primary text-white">
-                🤖 AI Dispatch Center
-            </div>
-
-            <div class="card-body">
-
-                <p><strong>Drivers Available:</strong> {{ drivers }}</p>
-                <p><strong>Trucks Ready:</strong> {{ trucks }}</p>
-                <p><strong>Trailers Ready:</strong> {{ trailers }}</p>
-                <p><strong>Waiting Loads:</strong> {{ loads }}</p>
-
-                <a href="{% url 'dispatch_board' %}" class="btn btn-success">
-                    🚚 Open Dispatch Board
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-lg-6">
-
-        <div class="card shadow">
-
-            <div class="card-header bg-success text-white">
-                📊 Fleet Status
-            </div>
-
-            <div class="card-body">
-
-                <ul class="list-group">
-
-                    <li class="list-group-item">
-                        👤 Drivers: {{ drivers }}
-                    </li>
-
-                    <li class="list-group-item">
-                        🚛 Trucks: {{ trucks }}
-                    </li>
-
-                    <li class="list-group-item">
-                        🚚 Trailers: {{ trailers }}
-                    </li>
-
-                    <li class="list-group-item">
-                        📦 Loads: {{ loads }}
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-<hr>
-
-<h2 class="mb-4">⚡ Quick Actions</h2>
-
-<div class="row">
-
-    <div class="col-md-3 mb-3">
-        <a href="{% url 'drivers' %}" class="btn btn-primary w-100">
-            👤 Manage Drivers
+        <a href="{% url 'add_driver' %}" class="btn btn-primary w-100">
+            ➕ Add Driver
         </a>
     </div>
 
     <div class="col-md-3 mb-3">
-        <a href="{% url 'trucks' %}" class="btn btn-success w-100">
-            🚛 Manage Trucks
+        <a href="{% url 'add_truck' %}" class="btn btn-success w-100">
+            ➕ Add Truck
         </a>
     </div>
 
     <div class="col-md-3 mb-3">
-        <a href="{% url 'trailers' %}" class="btn btn-warning w-100">
-            🚚 Manage Trailers
+        <a href="{% url 'add_trailer' %}" class="btn btn-warning w-100">
+            ➕ Add Trailer
         </a>
     </div>
 
@@ -251,29 +93,28 @@
 
 <div class="row">
 
-    <div class="col-md-6 mb-3">
-        <a href="{% url 'dispatch_board' %}" class="btn btn-dark w-100">
-            🤖 Open Dispatch Board
-        </a>
+    <div class="col-lg-8">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-primary text-white">
+                📊 Fleet Overview
+            </div>
+
+            <div class="card-body">
+                <canvas id="fleetChart" height="100"></canvas>
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="col-md-6 mb-3">
-        <a href="{% url 'ai_dispatch' %}" class="btn btn-info w-100">
-            🧠 AI Dispatch Center
-        </a>
-    </div>
-
-</div>
-<hr>
-
-<div class="row">
-
-    <div class="col-lg-6">
+    <div class="col-lg-4">
 
         <div class="card shadow mb-4">
 
             <div class="card-header bg-success text-white">
-                🤖 AI Recommendation
+                🤖 AI Dispatch Recommendation
             </div>
 
             <div class="card-body">
@@ -282,15 +123,13 @@
 
                     <h4>{{ recommended_driver.name }}</h4>
 
-                    <p>
-                        AI Score:
-                        <strong>{{ recommended_driver.ai_score }}/100</strong>
-                    </p>
+                    <p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
 
-                    <p>
-                        Hours Remaining:
-                        {{ recommended_driver.hours_remaining }}
-                    </p>
+                    <p><strong>Hours Remaining:</strong> {{ recommended_driver.hours_remaining }}</p>
+
+                    <a href="{% url 'dispatch_board' %}" class="btn btn-success w-100">
+                        🚚 Open Dispatch Board
+                    </a>
 
                 {% else %}
 
@@ -304,46 +143,20 @@
 
     </div>
 
-    <div class="col-lg-6">
-
-        <div class="card shadow mb-4">
-
-            <div class="card-header bg-primary text-white">
-                🚚 Fleet Status
-            </div>
-
-            <div class="card-body">
-
-                <p>Available Drivers:
-                    <strong>{{ available_drivers }}</strong>
-                </p>
-
-                <p>Assigned Loads:
-                    <strong>{{ assigned_loads }}</strong>
-                </p>
-
-                <p>Customers:
-                    <strong>{{ customers }}</strong>
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
 </div>
-<h3 class="mb-3">📦 Recent Loads</h3>
 
-<table class="table table-striped">
 
-    <thead>
+
+
+<h3 class="mb-3">📋 Recent Loads</h3>
+
+<table class="table table-striped shadow">
+
+    <thead class="table-dark">
 
         <tr>
-
             <th>Customer</th>
             <th>Status</th>
-
         </tr>
 
     </thead>
@@ -353,21 +166,14 @@
     {% for load in recent_loads %}
 
         <tr>
-
             <td>{{ load.customer }}</td>
             <td>{{ load.status }}</td>
-
         </tr>
 
     {% empty %}
 
         <tr>
-
-            <td colspan="2">
-                No recent loads.
-
-            </td>
-
+            <td colspan="2">No recent loads.</td>
         </tr>
 
     {% endfor %}
@@ -375,68 +181,105 @@
     </tbody>
 
 </table>
-<hr>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="row">
+<script>
 
-    <div class="col-lg-6">
+const ctx = document.getElementById("fleetChart");
 
-        <div class="card shadow mb-4">
+new Chart(ctx, {
 
-            <div class="card-header bg-success text-white">
-                🤖 AI Recommendation
-            </div>
+    type: "bar",
 
-            <div class="card-body">
+    data: {
 
-                {% if recommended_driver %}
+        labels: [
 
-                    <h4>{{ recommended_driver.name }}</h4>
+            "Drivers",
+            "Trucks",
+            "Trailers",
+            "Loads"
 
-                    <p>
-                        AI Score:
-                        <strong>{{ recommended_driver.ai_score }}/100</strong>
-                    </p>
+        ],
 
-                    <p>
-                        Hours Remaining:
-                        {{ recommended_driver.hours_remaining }}
-                    </p>
+        datasets: [{
 
-                {% else %}
+            label: "Fleet Overview",
 
-                    <p>No available drivers.</p>
+            data: [
 
-                {% endif %}
+                {{ drivers }},
+                {{ trucks }},
+                {{ trailers }},
+                {{ loads }}
 
-            </div>
+            ],
 
-        </div>
+            backgroundColor: [
 
+                "#0d6efd",
+                "#198754",
+                "#ffc107",
+                "#dc3545"
+
+            ],
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+        options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+
+});
+</script>
+
+</script>
+</div>
+
+<!-- Fleet Health starts here -->
+
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-info text-white">
+        🚚 Fleet Health
     </div>
 
-    <div class="col-lg-6">
+    <div class="card-body">
 
-        <div class="card shadow mb-4">
+        <div class="row text-center">
 
-            <div class="card-header bg-primary text-white">
-                🚚 Fleet Status
+            <div class="col-6">
+                <h2>{{ available_drivers }}</h2>
+                <p>👤 Available Drivers</p>
             </div>
 
-            <div class="card-body">
+            <div class="col-6">
+                <h2>{{ assigned_loads }}</h2>
+                <p>📦 Assigned Loads</p>
+            </div>
 
-                <p>Available Drivers:
-                    <strong>{{ available_drivers }}</strong>
-                </p>
+            <div class="col-6 mt-3">
+                <h2>{{ average_ai_score|floatformat:1 }}</h2>
+                <p>⭐ Average AI Score</p>
+            </div>
 
-                <p>Assigned Loads:
-                    <strong>{{ assigned_loads }}</strong>
-                </p>
-
-                <p>Customers:
-                    <strong>{{ customers }}</strong>
-                </p>
-
+            <div class="col-6 mt-3">
+                <h2>{{ customers }}</h2>
+                <p>🏢 Customers</p>
             </div>
 
         </div>
@@ -444,46 +287,6 @@
     </div>
 
 </div>
-<h3 class="mb-3">📦 Recent Loads</h3>
 
-<table class="table table-striped">
-
-    <thead>
-
-        <tr>
-
-            <th>Customer</th>
-            <th>Status</th>
-
-        </tr>
-
-    </thead>
-
-    <tbody>
-
-    {% for load in recent_loads %}
-
-        <tr>
-
-            <td>{{ load.customer }}</td>
-            <td>{{ load.status }}</td>
-
-        </tr>
-
-    {% empty %}
-
-        <tr>
-
-            <td colspan="2">
-                No recent loads.
-
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
-    </tbody>
-
-</table>
+{% endblock %}
 
