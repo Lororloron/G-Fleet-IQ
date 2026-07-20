@@ -15,24 +15,17 @@ class Truck(models.Model):
     unit_number = models.CharField(max_length=50)
     capacity = models.IntegerField()
     active = models.BooleanField(default=True)
+
     company = models.ForeignKey(
-    Company,
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True,
-    related_name="trucks"
-)
-    company = models.ForeignKey(
-    Company,
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True,
-    related_name="trailers"
-)    
+        Company,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="trucks"
+    )
 
     def __str__(self):
         return self.unit_number
-
 
 class Trailer(models.Model):
     STATUS_CHOICES = [
@@ -56,6 +49,13 @@ class Trailer(models.Model):
         null=True,
         blank=True
     )
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="trailers"
+)
 
     def __str__(self):
         return self.trailer_number
