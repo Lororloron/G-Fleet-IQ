@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Avg
 
-from fleet.models import Driver, Truck, Trailer, Load, Customer
+from fleet.models import Company, Driver, Truck, Trailer, Load, Customer
 from .forms import (
+    CompanyForm,
     CustomerForm,
     LoadForm,
     DriverForm,
@@ -583,6 +584,32 @@ def delete_customer(request, customer_id):
         "dashboard/delete_customer.html",
         {
             "customer": customer,
+        },
+    )
+ # ==========================================================
+# COMPANIES
+# ==========================================================
+
+def companies(request):
+
+    if request.method == "POST":
+
+        form = CompanyForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("companies")
+
+    else:
+
+        form = CompanyForm()
+
+    return render(
+        request,
+        "dashboard/companies.html",
+        {
+            "companies": Company.objects.all(),
+            "form": form,
         },
     )
 

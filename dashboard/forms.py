@@ -1,6 +1,6 @@
 from django import forms
-from fleet.models import Customer, Load, Driver, Truck, Trailer
 
+from fleet.models import Company, Customer, Load, Driver, Truck, Trailer
 
 class CustomerForm(forms.ModelForm):
     class Meta:
@@ -30,3 +30,9 @@ class TrailerForm(forms.ModelForm):
     class Meta:
         model = Trailer
         fields = "__all__"
+    
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = "__all__"        
