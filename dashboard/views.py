@@ -188,7 +188,7 @@ def ai_dispatch(request):
     )
 
     recommended_trailer = (
-        Trailer.objects.filter(loaded=False).first()
+       Trailer.objects.filter(available=True).first()
     )
 
     next_load = (
@@ -254,7 +254,7 @@ def dispatch_board(request):
     )
 
     recommended_trailer = (
-        Trailer.objects.filter(loaded=False).first()
+        Trailer.objects.filter(available=True).first()
     )
 
     context = {
@@ -300,7 +300,9 @@ def assign_load(request, load_id):
     )
 
     trailer = (
-        Trailer.objects.filter(loaded=False).first()
+        Trailer.objects.filter(
+            available=True,
+        ).first()
     )
 
     if driver and truck and trailer:
@@ -313,7 +315,7 @@ def assign_load(request, load_id):
         driver.available = False
         driver.status = "Driving"
 
-        trailer.loaded = True
+        trailer.available = False
 
         driver.save()
         trailer.save()

@@ -1,10 +1,34 @@
 from django.db import models
+class Company(models.Model):
+    name = models.CharField(max_length=200)
+    dot_number = models.CharField(max_length=50, blank=True)
+    mc_number = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Truck(models.Model):
     unit_number = models.CharField(max_length=50)
     capacity = models.IntegerField()
     active = models.BooleanField(default=True)
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="trucks"
+)
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="trailers"
+)    
 
     def __str__(self):
         return self.unit_number
@@ -61,6 +85,13 @@ class Driver(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="drivers"
+)
 
     def __str__(self):
         return self.name
@@ -69,6 +100,13 @@ class Driver(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="customers"
+)
 
     def __str__(self):
         return self.name
@@ -159,6 +197,13 @@ class Load(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
+    company = models.ForeignKey(
+    Company,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True,
+    related_name="loads"
+)
 
     def __str__(self):
         return f"{self.customer.name} | {self.pickup} → {self.delivery}"
