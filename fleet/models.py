@@ -11,9 +11,27 @@ class Truck(models.Model):
 
 
 class Trailer(models.Model):
-    trailer_number = models.CharField(max_length=50)
-    loaded = models.BooleanField(default=False)
+    STATUS_CHOICES = [
+        ("Empty", "Empty"),
+        ("Loaded", "Loaded"),
+        ("Maintenance", "Maintenance"),
+        ("Out of Service", "Out of Service"),
+    ]
+
+    trailer_number = models.CharField(max_length=50, unique=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="Empty"
+    )
     location = models.CharField(max_length=200)
+    capacity = models.IntegerField(default=53000)
+    available = models.BooleanField(default=True)
+    utilization = models.FloatField(default=0)
+    last_inspection = models.DateField(
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.trailer_number
@@ -31,14 +49,8 @@ class Driver(models.Model):
     )
 
     hours_remaining = models.IntegerField(default=11)
-
-    phone = models.CharField(
-        max_length=20,
-        blank=True
-    )
-
+    phone = models.CharField(max_length=20, blank=True)
     ai_score = models.IntegerField(default=0)
-
     miles_today = models.IntegerField(default=0)
     loads_completed = models.IntegerField(default=0)
     fuel_efficiency = models.FloatField(default=0)
@@ -63,11 +75,69 @@ class Customer(models.Model):
 
 
 class Load(models.Model):
-    customer = models.CharField(max_length=100)
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        related_name="loads"
+    )
+
     pickup = models.CharField(max_length=200)
     delivery = models.CharField(max_length=200)
     weight = models.IntegerField()
-    status = models.CharField(max_length=50, default="Available")
+    distance = models.IntegerField(default=0)
+
+    rate = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    fuel_cost = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    driver_pay = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    tolls = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    maintenance_cost = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    insurance_cost = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    profit = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    profit_per_mile = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    status = models.CharField(
+        max_length=50,
+        default="Available"
+    )
 
     driver = models.ForeignKey(
         Driver,
@@ -91,4 +161,4 @@ class Load(models.Model):
     )
 
     def __str__(self):
-        return self.customer
+        return f"{self.customer.name} | {self.pickup} → {self.delivery}"
