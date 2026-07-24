@@ -1,5 +1,4 @@
 {% extends "dashboard/base.html" %}
-
 {% block content %}
 <div class="p-4 mb-4 bg-primary text-white rounded shadow">
 
@@ -60,6 +59,53 @@
 
 
 <hr>
+<div class="row mt-3">
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'companies' %}" class="text-decoration-none">
+            <div class="card shadow border-info text-center">
+                <div class="card-body">
+                    <h1>{{ companies }}</h1>
+                    <h5 class="text-dark">🏢 Companies</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trucks' %}" class="text-decoration-none">
+            <div class="card shadow border-success text-center">
+                <div class="card-body">
+                    <h1>{{ available_trucks }}</h1>
+                    <h5 class="text-dark">✅ Available Trucks</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'trailers' %}" class="text-decoration-none">
+            <div class="card shadow border-warning text-center">
+                <div class="card-body">
+                    <h1>{{ available_trailers }}</h1>
+                    <h5 class="text-dark">🚛 Available Trailers</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a href="{% url 'loads' %}" class="text-decoration-none">
+            <div class="card shadow border-danger text-center">
+                <div class="card-body">
+                    <h1>{{ active_loads }}</h1>
+                    <h5 class="text-dark">📦 Active Loads</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
 
 <h3 class="mb-3">⚡ Quick Actions</h3>
 
@@ -280,6 +326,200 @@ new Chart(ctx, {
             <div class="col-6 mt-3">
                 <h2>{{ customers }}</h2>
                 <p>🏢 Customers</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-danger text-white">
+        🚨 Fleet Alerts
+    </div>
+
+    <div class="card-body">
+
+        <div class="row text-center">
+
+            <div class="col-md-4">
+                <h2>{{ maintenance_trucks }}</h2>
+                <p>🔧 Trucks in Maintenance</p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>{{ drivers_low_hours }}</h2>
+                <p>⏰ Drivers Low on Hours</p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>{{ empty_trailers }}</h2>
+                <p>🚛 Empty Trailers</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="card shadow mb-4">
+
+    <div class="card-header bg-dark text-white">
+        💰 Executive Performance
+    </div>
+
+    <div class="card-body">
+
+        <div class="row text-center">
+
+            <div class="col-md-4">
+                <h2>${{ total_revenue }}</h2>
+                <p>Total Revenue</p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>${{ total_profit }}</h2>
+                <p>Total Profit</p>
+            </div>
+
+            <div class="col-md-4">
+                <h2>${{ average_profit|floatformat:2 }}</h2>
+                <p>Average Profit / Load</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-secondary text-white">
+                📋 Recent Drivers
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for driver in recent_drivers %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ driver.name }}</span>
+                        <span class="badge bg-primary">{{ driver.status }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No drivers found.</li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-success text-white">
+                🚛 Recent Trucks
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for truck in recent_trucks %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ truck.number }}</span>
+                        <span class="badge bg-success">
+                            {% if truck.active %}
+                                Active
+                            {% else %}
+                                Inactive
+                            {% endif %}
+                        </span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No trucks found.</li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-secondary text-white">
+                📋 Recent Drivers
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for driver in recent_drivers %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ driver.name }}</span>
+                        <span class="badge bg-primary">{{ driver.status }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No drivers found.</li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-success text-white">
+                🚛 Recent Trucks
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    {% for truck in recent_trucks %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ truck.number }}</span>
+                        <span class="badge bg-success">
+                            {% if truck.active %}
+                                Active
+                            {% else %}
+                                Inactive
+                            {% endif %}
+                        </span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No trucks found.</li>
+                    {% endfor %}
+
+                </ul>
+
             </div>
 
         </div>

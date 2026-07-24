@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Avg
+from django.db.models import Avg, Sum
 
 from fleet.models import Company, Driver, Truck, Trailer, Load, Customer
 from .forms import (
@@ -61,6 +61,11 @@ def home(request):
         "recommended_driver": recommended_driver,
         "top_drivers": Driver.objects.order_by("-ai_score")[:5],
         "recent_loads": Load.objects.order_by("-id")[:5],
+        "total_profit": Load.objects.aggregate(total=Sum("profit"))["total"] or 0,
+        "total_revenue": Load.objects.aggregate(total=Sum("rate"))["total"] or 0,
+        "average_profit": Load.objects.aggregate(avg=Avg("profit"))["avg"] or 0,
+        "recent_drivers": Driver.objects.order_by("-id")[:5],
+        "recent_trucks": Truck.objects.order_by("-id")[:5],
     }
 
     return render(
@@ -68,6 +73,7 @@ def home(request):
         "dashboard/home.html",
         context,
     )
+    
 
 
 # ==========================================================
@@ -635,4 +641,13 @@ def delete_load(request, load_id):
         {
             "load": load,
         },
+    )
+# ==========================================================
+# FLEET MAP
+# ==========================================================
+
+def fleet_map(request):
+    return render(
+        request,
+        "dashboard/fleet_map.html",
     )
