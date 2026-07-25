@@ -26,6 +26,8 @@ class Truck(models.Model):
 
     def __str__(self):
         return self.unit_number
+    latitude = models.FloatField(default=39.7684)
+    longitude = models.FloatField(default=-86.1581)
 
 class Trailer(models.Model):
     STATUS_CHOICES = [

@@ -1,0 +1,94 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>🚛 Truck {{ truck.truck_number }}</h2>
+            <p class="text-muted">Truck Information Center</p>
+        </div>
+
+        <a href="{% url 'trucks' %}" class="btn btn-secondary">
+            ← Back to Trucks
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5>Truck Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Truck Number</th>
+                            <td>{{ truck.truck_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ truck.status }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Latitude</th>
+                            <td>{{ truck.latitude }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Longitude</th>
+                            <td>{{ truck.longitude }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5>Quick Actions</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <button class="btn btn-primary w-100 mb-2">
+                        📍 Update Location
+                    </button>
+
+                    <button class="btn btn-success w-100 mb-2">
+                        📦 Assign Load
+                    </button>
+
+                    <button class="btn btn-warning w-100 mb-2">
+                        🛠 Maintenance
+                    </button>
+
+                    <button class="btn btn-info w-100">
+                        📄 View Documents
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

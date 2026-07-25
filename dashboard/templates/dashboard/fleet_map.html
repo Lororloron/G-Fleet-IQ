@@ -1,0 +1,74 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>🗺️ Fleet Map</h2>
+        <p class="text-muted">Live Fleet Monitoring</p>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body p-0">
+        <div id="map" style="height:700px;"></div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const map = L.map('map').setView([39.7684, -86.1581], 7);
+
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution: '&copy; OpenStreetMap',
+        maxZoom: 19
+    }
+).addTo(map);
+
+{% for truck in trucks %}
+
+L.marker([
+    {{ truck.latitude }},
+    {{ truck.longitude }}
+]).addTo(map)
+.bindPopup(`
+    <div style="min-width:220px;">
+        <h5>🚛 {{ truck.truck_number }}</h5>
+
+        <hr>
+
+        <b>Status:</b> {{ truck.status }}<br>
+
+        <b>Latitude:</b> {{ truck.latitude }}<br>
+
+        <b>Longitude:</b> {{ truck.longitude }}<br>
+
+        <hr>
+
+        <button
+    class="btn btn-primary btn-sm"
+    onclick="window.location.href='{% url 'truck_detail' truck.id %}'">
+    View Details
+     </button>
+    </div>
+`);
+
+{% empty %}
+
+// If there are no trucks in the database, show the headquarters marker.
+L.marker([39.7684, -86.1581])
+.addTo(map)
+.bindPopup("<b>🏢 G Fleet IQ HQ</b>");
+
+{% endfor %}
+
+</script>
+
+{% endblock %}

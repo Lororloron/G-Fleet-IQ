@@ -6,71 +6,113 @@
 
 <div class="row">
 
+    <!-- AI Recommendation -->
     <div class="col-lg-4">
 
         <div class="card shadow mb-4">
-            <div class="card-header bg-primary text-white">
-                Fleet Summary
+
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">🤖 AI Recommendation</h5>
             </div>
 
             <div class="card-body">
 
-    <h4>🤖 Best Assignment</h4>
+                {% if best_driver and best_truck %}
 
-    <p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
+                    <h5>Recommended Driver</h5>
 
-    <p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
+                    <p>
+                        <strong>{{ best_driver.name }}</strong><br>
+                        AI Score: {{ best_driver.ai_score }}/100<br>
+                        Hours Remaining: {{ best_driver.hours_remaining }}
+                    </p>
 
-    <p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer" }}</p>
+                    <hr>
 
-    {% if recommended_driver %}
-        <p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
-    {% endif %}
+                    <h5>Recommended Truck</h5>
 
-    <hr>
+                    <p>
+                        <strong>{{ best_truck.unit_number }}</strong><br>
+                        Active: {{ best_truck.active }}
+                    </p>
 
-    
+                {% else %}
 
-    <a href="{% url 'dispatch_board' %}" class="btn btn-primary">
-        🚚 Open Dispatch Board
-    </a>
+                    <div class="alert alert-warning">
+                        No available drivers or trucks found.
+                    </div>
 
-</div>
-    <div class="col-lg-8">
+                {% endif %}
+
+                <a href="{% url 'dispatch_board' %}" class="btn btn-primary w-100">
+                    🚚 Open Dispatch Board
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Available Drivers -->
+    <div class="col-lg-4">
 
         <div class="card shadow">
 
-            <div class="card-header bg-success text-white">
-                🤖 AI Recommendation
+            <div class="card-header bg-primary text-white">
+                Available Drivers
             </div>
 
             <div class="card-body">
 
-                <p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
+                {% for driver in drivers %}
 
-                <p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
+                    <p>
+                        👤 <strong>{{ driver.name }}</strong><br>
+                        AI Score: {{ driver.ai_score }}<br>
+                        Hours Left: {{ driver.hours_remaining }}
+                    </p>
 
-                <p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer"
-               }}</p>
-               <hr>
+                    <hr>
 
-<h4>🤖 Best Assignment</h4>
+                {% empty %}
 
-<p><strong>Driver:</strong> {{ recommended_driver|default:"No available driver" }}</p>
+                    <p>No available drivers.</p>
 
-<p><strong>Truck:</strong> {{ recommended_truck|default:"No available truck" }}</p>
+                {% endfor %}
 
-<p><strong>Trailer:</strong> {{ recommended_trailer|default:"No available trailer" }}</p>
+            </div>
 
-{% if recommended_driver %}
-<p><strong>AI Score:</strong> {{ recommended_driver.ai_score }}/100</p>
-{% endif %}
+        </div>
 
-<a href="{% url 'dispatch_board' %}" class="btn btn-primary">
-    🚚 Open Dispatch Board
-</a>
+    </div>
 
-                
+    <!-- Available Trucks -->
+    <div class="col-lg-4">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-secondary text-white">
+                Available Trucks
+            </div>
+
+            <div class="card-body">
+
+                {% for truck in trucks %}
+
+                    <p>
+                        🚛 <strong>{{ truck.truck_number }}</strong><br>
+                        Active: {{ best_truck.active|yesno:"Yes,No" }}
+                    </p>
+
+                    <hr>
+
+                {% empty %}
+
+                    <p>No available trucks.</p>
+
+                {% endfor %}
+
             </div>
 
         </div>

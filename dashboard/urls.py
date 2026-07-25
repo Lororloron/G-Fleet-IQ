@@ -51,4 +51,5 @@ path("loads/", views.loads, name="loads"),
 path("loads/<int:load_id>/delete/", views.delete_load, name="delete_load"),
 path("companies/", views.companies, name="companies"),
 path("fleet-map/", views.fleet_map, name="fleet_map"),
+path("trucks/<int:truck_id>/", views.truck_detail, name="truck_detail"),
 ]

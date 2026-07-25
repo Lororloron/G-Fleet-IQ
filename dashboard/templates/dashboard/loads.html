@@ -73,6 +73,52 @@
     </tbody>
 
 </table>
+<script>
+function calculateProfit() {
+
+    const rate = parseFloat(document.getElementById("id_rate")?.value) || 0;
+    const distance = parseFloat(document.getElementById("id_distance")?.value) || 0;
+
+    const fuel = parseFloat(document.getElementById("id_fuel_cost")?.value) || 0;
+    const driver = parseFloat(document.getElementById("id_driver_pay")?.value) || 0;
+    const tolls = parseFloat(document.getElementById("id_tolls")?.value) || 0;
+    const maintenance = parseFloat(document.getElementById("id_maintenance_cost")?.value) || 0;
+    const insurance = parseFloat(document.getElementById("id_insurance_cost")?.value) || 0;
+
+    const profit = rate - fuel - driver - tolls - maintenance - insurance;
+    const profitPerMile = distance > 0 ? profit / distance : 0;
+
+    const profitField = document.getElementById("id_profit");
+    const ppmField = document.getElementById("id_profit_per_mile");
+
+    if (profitField) {
+        profitField.value = profit.toFixed(2);
+    }
+
+    if (ppmField) {
+        ppmField.value = profitPerMile.toFixed(2);
+    }
+}
+
+[
+    "id_rate",
+    "id_distance",
+    "id_fuel_cost",
+    "id_driver_pay",
+    "id_tolls",
+    "id_maintenance_cost",
+    "id_insurance_cost"
+].forEach(function(id) {
+    const field = document.getElementById(id);
+    if (field) {
+        field.addEventListener("input", calculateProfit);
+    }
+});
+
+calculateProfit();
+</script>
+
+{% endblock %}
 
 
 

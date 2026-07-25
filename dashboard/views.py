@@ -181,37 +181,27 @@ def loads(request):
 
 def ai_dispatch(request):
 
-    recommended_driver = (
-        Driver.objects.filter(
-            available=True,
-            status="Available",
-        )
-        .order_by("-ai_score")
-        .first()
+    available_drivers = Driver.objects.filter(
+        available=True
+    ).order_by("-ai_score", "-hours_remaining")
+
+    available_trucks = Truck.objects.filter(
+        active=True
     )
 
-    recommended_truck = (
-        Truck.objects.filter(active=True).first()
+    available_loads = Load.objects.filter(
+        status="Available"
     )
 
-    recommended_trailer = (
-       Trailer.objects.filter(available=True).first()
-    )
-
-    next_load = (
-        Load.objects.filter(status="Available").first()
-    )
+    best_driver = available_drivers.first()
+    best_truck = available_trucks.first()
 
     context = {
-        "drivers": Driver.objects.count(),
-        "trucks": Truck.objects.count(),
-        "trailers": Trailer.objects.count(),
-        "loads": Load.objects.count(),
-
-        "recommended_driver": recommended_driver,
-        "recommended_truck": recommended_truck,
-        "recommended_trailer": recommended_trailer,
-        "next_load": next_load,
+        "drivers": available_drivers,
+        "trucks": available_trucks,
+        "loads": available_loads,
+        "best_driver": best_driver,
+        "best_truck": best_truck,
     }
 
     return render(
@@ -219,8 +209,6 @@ def ai_dispatch(request):
         "dashboard/ai_dispatch.html",
         context,
     )
-
-
 # ==========================================================
 # DISPATCH BOARD
 # ==========================================================
@@ -646,8 +634,25 @@ def delete_load(request, load_id):
 # FLEET MAP
 # ==========================================================
 
+from fleet.models import Truck
+
 def fleet_map(request):
+    trucks = Truck.objects.all()
+
     return render(
         request,
         "dashboard/fleet_map.html",
+        {
+            "trucks": trucks,
+        },
+    )
+def truck_detail(request, truck_id):
+    truck = Truck.objects.get(id=truck_id)
+
+    return render(
+        request,
+        "dashboard/truck_detail.html",
+        {
+            "truck": truck,
+        },
     )
