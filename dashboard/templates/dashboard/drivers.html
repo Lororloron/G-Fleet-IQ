@@ -3,10 +3,11 @@
 {% block content %}
 
 <h1 class="mb-4">👤 Drivers</h1>
+
 <div class="mb-3">
-    ><a href="{% url 'add_driver' %}" class="btn btn-primary">
-    ➕ Add Driver
-</a>
+    <a href="{% url 'add_driver' %}" class="btn btn-primary">
+        ➕ Add Driver
+    </a>
 </div>
 
 <table class="table table-striped">
@@ -27,7 +28,9 @@
 
     <tr>
         <td>{{ driver.name }}</td>
+
         <td>{{ driver.location }}</td>
+
         <td>
             {% if driver.available %}
                 <span class="badge bg-success">Available</span>
@@ -35,13 +38,20 @@
                 <span class="badge bg-danger">Busy</span>
             {% endif %}
         </td>
-        <td>{{ driver.truck|default:"Not Assigned" }}</td>
+
         <td>
-            <a href="{% url 'edit_driver' driver.id %}" class="btn btn-warning btn-sm">
+            {{ driver.truck|default:"Not Assigned" }}
+        </td>
+
+        <td>
+            <a href="{% url 'edit_driver' driver.id %}"
+               class="btn btn-warning btn-sm">
                 ✏️ Edit
-                <a href="{% url 'delete_driver' driver.id %}" class="btn btn-danger btn-sm">
-    🗑️ Delete
-</a>
+            </a>
+
+            <a href="{% url 'delete_driver' driver.id %}"
+               class="btn btn-danger btn-sm">
+                🗑️ Delete
             </a>
         </td>
     </tr>

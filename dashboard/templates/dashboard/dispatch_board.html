@@ -3,79 +3,266 @@
 {% block content %}
 
 <h1 class="mb-4">🚚 Dispatch Board</h1>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="card shadow mb-4">
 
-<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        🏆 AI Dispatch Recommendation
+    </div>
 
-    <div class="card-header bg-primary text-white">
-        📦 Waiting Loads
+
+    <div class="card-body">
+
+        {% if best_plan %}
+
+            <h3>
+                {{ best_plan.load.customer }}
+            </h3>
+
+            <p>
+                <strong>
+                    {{ best_plan.load.pickup }}
+                    →
+                    {{ best_plan.load.delivery }}
+                </strong>
+            </p>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <strong>🤖 AI Score</strong><br>
+                    {{ best_plan.ai_score }}/100
+                </div>
+
+                <div class="col-md-3">
+                    <strong>👤 Driver</strong><br>
+
+                    {% if best_plan.driver %}
+                        {{ best_plan.driver.name }}
+                    {% else %}
+                        No Driver
+                    {% endif %}
+                </div>
+
+                <div class="col-md-3">
+                    <strong>🚛 Truck</strong><br>
+
+                    {% if best_plan.truck %}
+                        {{ best_plan.truck.unit_number }}
+                    {% else %}
+                        No Truck
+                    {% endif %}
+                </div>
+
+                <div class="col-md-3">
+                    <strong>🚚 Trailer</strong><br>
+
+                    {% if best_plan.trailer %}
+                        {{ best_plan.trailer.trailer_number }}
+                    {% else %}
+                        No Trailer
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <hr>
+
+            
+
+<!-- FINANCIAL SUMMARY -->
+<div class="row">
+
+    <div class="col-md-3">
+        <strong>💰 Revenue</strong><br>
+        ${{ best_plan.profit.revenue|floatformat:2 }}
+    </div>
+
+    <div class="col-md-3">
+        <strong>💵 Profit</strong><br>
+        ${{ best_plan.profit.profit|floatformat:2 }}
+    </div>
+
+    <div class="col-md-3">
+        <strong>📈 Profit/Mile</strong><br>
+        ${{ best_plan.profit.profit_per_mile|floatformat:2 }}
+    </div>
+
+    <div class="col-md-3">
+        <strong>🛣️ Miles</strong><br>
+        {{ best_plan.route.miles|floatformat:1 }}
+    </div>
+
+</div>
+
+<div class="row mt-3">
+
+    <div class="col-md-4">
+        <strong>⛽ MPG</strong><br>
+        {{ best_plan.profit.mpg|floatformat:1 }}
+    </div>
+
+    <div class="col-md-4">
+        <strong>⛽ Fuel Needed</strong><br>
+        {{ best_plan.profit.gallons|floatformat:2 }} gal
+    </div>
+
+    <div class="col-md-4">
+        <strong>💵 Fuel Cost</strong><br>
+        ${{ best_plan.profit.fuel_cost|floatformat:2 }}
+    </div>
+
+</div>
+
+</div>
+
+<hr>
+
+
+
+
+
+<!-- DRIVER POSITION -->
+<div class="row">
+
+   <div class="col-md-6">
+    <strong>📍 Driver → Pickup</strong><br>
+
+    {% if best_plan.driver_distance is not None %}
+        {{ best_plan.driver_distance }} miles
+    {% else %}
+        N/A
+    {% endif %}
+</div>
+
+
+
+    <div class="col-md-6">
+        <strong>⏱️ Pickup ETA</strong><br>
+
+        {% if best_plan.driver_drive_hours is not None %}
+            {{ best_plan.driver_drive_hours }} hours
+        {% else %}
+            N/A
+        {% endif %}
+    </div>
+
+</div>
+
+<hr>
+
+<h5>🧠 Why AI Selected This Load</h5>
+
+{% for reason in best_plan.ai_reasons %}
+    <div>{{ reason }}</div>
+{% endfor %}
+<hr>
+
+<!-- ===================================================== -->
+<!-- AI FUEL SOLUTION -->
+<!-- ===================================================== -->
+
+<div class="card border-success mt-4">
+
+    <div class="card-header bg-success text-white">
+        ⛽🤖 AI Fuel Solution
     </div>
 
     <div class="card-body">
 
-        <table class="table table-striped">
+        {% if best_fuel_stop %}
 
-            <thead>
-                <tr>
-                    <th>Customer</th>
-                    <th>Pickup</th>
-                    <th>Delivery</th>
-                    <th>Driver</th>
-                    <th>Truck</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+            <h4>🏆 Best Fuel Stop</h4>
 
-            <tbody>
+            <p class="mb-2">
+                <strong>{{ best_fuel_stop.name }}</strong>
+            </p>
 
-            {% for load in loads %}
+            <p class="mb-2">
+                📍 {{ best_fuel_stop.address }}
+            </p>
 
-            <tr>
+            <div class="row">
 
-                <td>{{ load.customer }}</td>
-                <td>{{ load.pickup }}</td>
-                <td>{{ load.delivery }}</td>
-                <td>{{ load.driver|default:"Unassigned" }}</td>
-                <td>{{ load.truck|default:"Unassigned" }}</td>
+                <div class="col-md-3">
+                    <strong>💵 Diesel</strong><br>
+                    ${{ best_fuel_stop.price_per_gallon|floatformat:2 }}/gal
+                </div>
 
-                <td>
-                    {% if load.status == "Available" %}
-                        <span class="badge bg-warning text-dark">Available</span>
-                    {% elif load.status == "Assigned" %}
-                        <span class="badge bg-success">Assigned</span>
-                    {% else %}
-                        <span class="badge bg-secondary">{{ load.status }}</span>
-                    {% endif %}
-                </td>
+                <div class="col-md-3">
+                    <strong>📍 Detour</strong><br>
+                    {{ best_fuel_stop.detour_miles|floatformat:1 }} miles
+                </div>
 
-                <td>
-                    {% if load.status == "Available" %}
-                        <a href="{% url 'assign_load' load.id %}" class="btn btn-success btn-sm">
-                            🤖 AI Assign
-                        </a>
-                    {% else %}
-                        <span class="text-muted">Assigned</span>
-                    {% endif %}
-                </td>
+                <div class="col-md-3">
+                    <strong>⛽ Fuel Cost</strong><br>
+                    ${{ best_fuel_stop.fuel_cost|floatformat:2 }}
+                </div>
 
-            </tr>
+                <div class="col-md-3">
+                    <strong>🤖 AI Rank</strong><br>
+                    #{{ best_fuel_stop.rank }}
+                </div>
 
-            {% empty %}
+            </div>
 
-            <tr>
-                <td colspan="7" class="text-center">
-                    No loads available.
-                </td>
-            </tr>
+            <hr>
 
-            {% endfor %}
+            <div class="alert alert-success mb-0">
+                ✅ <strong>AI recommends this fuel stop.</strong><br>
+                Lowest effective fuel cost based on price and detour.
+            </div>
+            <hr>
 
-            </tbody>
+<!-- DISPATCH LOAD BUTTON -->
+<div class="d-grid mt-4">
 
-        </table>
+    <form method="post"
+          action="{% url 'assign_load' best_plan.load.id %}">
+
+        {% csrf_token %}
+
+        <button type="submit"
+                class="btn btn-success btn-lg">
+
+            🚀 DISPATCH THIS LOAD
+
+        </button>
+
+    </form>
+
+</div>
+
+        {% else %}
+
+            <div class="alert alert-info mb-0">
+                ⛽ No live fuel station data available yet.
+            </div>
+
+        {% endif %}
 
     </div>
 
 </div>
 
+{% else %}
+
+    <div class="alert alert-info">
+        📦 <strong>All available loads have been dispatched.</strong><br>
+        There are no loads waiting for AI assignment right now.
+    </div>
+
+{% endif %}
 {% endblock %}

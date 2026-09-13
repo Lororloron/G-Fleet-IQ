@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<div class="container-fluid">
+
 <h1 class="mb-4">🤖 AI Dispatch Center</h1>
 
 <div class="row">
@@ -12,34 +14,53 @@
         <div class="card shadow mb-4">
 
             <div class="card-header bg-success text-white">
-                <h5 class="mb-0">🤖 AI Recommendation</h5>
+                <h4 class="mb-0">🤖 AI Recommendation</h4>
             </div>
 
             <div class="card-body">
 
-                {% if best_driver and best_truck %}
+                {% if best_driver and best_truck and best_trailer and best_load %}
 
-                    <h5>Recommended Driver</h5>
+                    <h5>👤 Recommended Driver</h5>
 
                     <p>
                         <strong>{{ best_driver.name }}</strong><br>
-                        AI Score: {{ best_driver.ai_score }}/100<br>
+                        AI Score: {{ best_driver.ai_score }}<br>
                         Hours Remaining: {{ best_driver.hours_remaining }}
                     </p>
 
                     <hr>
 
-                    <h5>Recommended Truck</h5>
+                    <h5>🚛 Recommended Truck</h5>
 
                     <p>
                         <strong>{{ best_truck.unit_number }}</strong><br>
-                        Active: {{ best_truck.active }}
+                        Capacity: {{ best_truck.capacity }}
+                    </p>
+
+                    <hr>
+
+                    <h5>🚚 Recommended Trailer</h5>
+
+                    <p>
+                        <strong>{{ best_trailer.trailer_number }}</strong><br>
+                        Status: {{ best_trailer.status }}
+                    </p>
+
+                    <hr>
+
+                    <h5>📦 Recommended Load</h5>
+
+                    <p>
+                        <strong>{{ best_load.customer }}</strong><br>
+                        {{ best_load.pickup }} → {{ best_load.delivery }}<br>
+                        Priority: {{ best_load.priority }}
                     </p>
 
                 {% else %}
 
                     <div class="alert alert-warning">
-                        No available drivers or trucks found.
+                        No complete dispatch recommendation available.
                     </div>
 
                 {% endif %}
@@ -52,28 +73,142 @@
 
         </div>
 
+        <!-- AI Dispatch Summary -->
+
+        <div class="card shadow">
+
+            <div class="card-header bg-dark text-white">
+                📊 AI Dispatch Summary
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th>Driver</th>
+                        <td>{{ best_driver.name }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Truck</th>
+                        <td>{{ best_truck.unit_number }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Trailer</th>
+                        <td>{{ best_trailer.trailer_number }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Customer</th>
+                        <td>{{ best_load.customer }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Pickup</th>
+                        <td>{{ best_load.pickup }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Delivery</th>
+                        <td>{{ best_load.delivery }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Rate</th>
+                        <td>${{ best_load.rate }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Miles</th>
+                        <td>{{ best_load.miles }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Profit</th>
+                        <td>${{ best_load.profit }}</td>
+                    </tr>
+
+                </table>
+
+                <hr>
+                <tr>
+    <th>Drive Time</th>
+    <td>{{ route.drive_hours }} Hours</td>
+</tr>
+
+<tr>
+    <th>Fuel Cost</th>
+    <td>${{ route.fuel_cost }}</td>
+</tr>
+
+<tr>
+    <th>Truck Stops</th>
+    <td>{{ route.truck_stops }}</td>
+</tr>
+
+                <h5>🧠 AI Decision Score</h5>
+
+                <div class="progress mb-3">
+
+                    <div class="progress-bar bg-success"
+                         role="progressbar"
+                         style="width: {{ ai_score }}%;">
+
+                        {{ ai_score }}%
+
+                    </div>
+
+                </div>
+
+                <ul class="list-group">
+
+                    {% for reason in ai_reasons %}
+
+                        <li class="list-group-item">
+                            {{ reason }}
+                        </li>
+
+                    {% empty %}
+
+                        <li class="list-group-item">
+                            No AI reasons available.
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
     </div>
 
     <!-- Available Drivers -->
+
     <div class="col-lg-4">
 
         <div class="card shadow">
 
             <div class="card-header bg-primary text-white">
-                Available Drivers
+                👤 Available Drivers
             </div>
 
             <div class="card-body">
 
                 {% for driver in drivers %}
 
-                    <p>
-                        👤 <strong>{{ driver.name }}</strong><br>
-                        AI Score: {{ driver.ai_score }}<br>
-                        Hours Left: {{ driver.hours_remaining }}
-                    </p>
+                    <div class="border rounded p-2 mb-3">
 
-                    <hr>
+                        <strong>{{ driver.name }}</strong><br>
+
+                        AI Score: {{ driver.ai_score }}<br>
+
+                        Hours Remaining: {{ driver.hours_remaining }}
+
+                    </div>
 
                 {% empty %}
 
@@ -87,25 +222,27 @@
 
     </div>
 
-    <!-- Available Trucks -->
+    <!-- Trucks & Trailers -->
+
     <div class="col-lg-4">
 
-        <div class="card shadow">
+        <div class="card shadow mb-4">
 
             <div class="card-header bg-secondary text-white">
-                Available Trucks
+                🚛 Available Trucks
             </div>
 
             <div class="card-body">
 
                 {% for truck in trucks %}
 
-                    <p>
-                        🚛 <strong>{{ truck.truck_number }}</strong><br>
-                        Active: {{ best_truck.active|yesno:"Yes,No" }}
-                    </p>
+                    <div class="border rounded p-2 mb-3">
 
-                    <hr>
+                        <strong>{{ truck.unit_number }}</strong><br>
+
+                        Capacity: {{ truck.capacity }}
+
+                    </div>
 
                 {% empty %}
 
@@ -117,7 +254,37 @@
 
         </div>
 
+        <div class="card shadow">
+
+            <div class="card-header bg-warning">
+                🚚 Available Trailers
+            </div>
+
+            <div class="card-body">
+
+                {% for trailer in trailers %}
+
+                    <div class="border rounded p-2 mb-3">
+
+                        <strong>{{ trailer.trailer_number }}</strong><br>
+
+                        {{ trailer.status }}
+
+                    </div>
+
+                {% empty %}
+
+                    <p>No available trailers.</p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
     </div>
+
+</div>
 
 </div>
 
